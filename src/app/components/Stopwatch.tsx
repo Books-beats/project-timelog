@@ -4,19 +4,24 @@ import { useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { FaCirclePause } from "react-icons/fa6";
 import { RiResetLeftFill } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Stopwatch = ({
   id,
+  removeProject,
   updateProject,
   timeElapsed,
   projectStore,
   updateElapsedTime,
-  displayTime,
 }) => {
+  const handleDelete = () => {
+    removeProject(id);
+  };
+
   let startTime;
   let elapsedPausedTime = 0;
   const today = new Date();
-  console.log(today);
+  // console.log(today);
   const [stopwatchInterval, setStopwatchInterval] = useState<any>();
   const [isRunning, setIsRunning] = useState(false);
 
@@ -31,19 +36,19 @@ const Stopwatch = ({
       Number(timeParts[1]),
       Number(timeParts[2])
     );
-    console.log(date);
+    // console.log(date);
     if (!isRunning) {
       let setinterval = setInterval(updateStopwatch, 1000);
       startTime = date.getTime() - elapsedPausedTime;
       setStopwatchInterval(setinterval);
       setIsRunning(true);
     }
-    console.log("start", isRunning);
+    // console.log("start", isRunning);
   }
 
   function pauseStopwatch() {
-    console.log("pause");
-    console.log("isRunning", isRunning);
+    // console.log("pause");
+    // console.log("isRunning", isRunning);
     if (isRunning) {
       clearInterval(stopwatchInterval);
       elapsedPausedTime = new Date().getTime() - startTime;
@@ -118,6 +123,13 @@ const Stopwatch = ({
           style={{ padding: "0.5rem", margin: "0.5rem" }}
         >
           <RiResetLeftFill size={20} />
+        </button>
+        <button
+          id="button"
+          onClick={handleDelete}
+          style={{ padding: "0.5rem", margin: "0.5rem" }}
+        >
+          <RiDeleteBin6Line size={20} />
         </button>
       </div>
     </>

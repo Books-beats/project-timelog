@@ -4,11 +4,11 @@ import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 
 const ProjectBar = ({
+  removeProject,
   project,
   updateProject,
   projectStore,
   updateElapsedTime,
-  displayTime,
 }) => {
   return (
     <>
@@ -29,11 +29,11 @@ const ProjectBar = ({
         </div>
         <Stopwatch
           id={project.id}
+          removeProject={removeProject}
           updateProject={updateProject}
           timeElapsed={project.timeElapsed}
           projectStore={projectStore}
           updateElapsedTime={updateElapsedTime}
-          displayTime={displayTime}
         />
       </div>
     </>

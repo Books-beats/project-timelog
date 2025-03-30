@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { IoSend } from "react-icons/io5";
 
 import {
   Dialog,
@@ -36,18 +37,30 @@ const AddProject = ({ addNewProject }) => {
             <IoMdAdd />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] text-gray-700">
           <DialogHeader>
-            <DialogTitle>Add Project</DialogTitle>
+            <DialogTitle className="py-1">
+              Add Project
+              <hr style={{ marginBlockStart: "10px" }} />
+            </DialogTitle>
           </DialogHeader>
           <div>
             <form onSubmit={handleSubmit}>
               <label className="text-right mr-2">
                 Name
-                <input id="title" name="title" className="col-span-3" />
+                <input
+                  id="title"
+                  name="title"
+                  className="col-span-3"
+                  style={{
+                    margin: "10px",
+                    border: "1px solid black",
+                    borderRadius: "5px",
+                  }}
+                />
               </label>
-              <button type="submit" id="button">
-                ok
+              <button type="submit" id="button" style={{ padding: "0.5rem" }}>
+                <IoSend />
               </button>
             </form>
           </div>
