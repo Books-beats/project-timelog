@@ -3,13 +3,7 @@ import Stopwatch from "./Stopwatch";
 import { EditText } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 
-const ProjectBar = ({
-  removeProject,
-  project,
-  updateProject,
-  projectStore,
-  updateElapsedTime,
-}) => {
+const ProjectBar = ({ removeProject, project, updateProject }) => {
   return (
     <>
       <div
@@ -32,8 +26,6 @@ const ProjectBar = ({
           removeProject={removeProject}
           updateProject={updateProject}
           timeElapsed={project.timeElapsed}
-          projectStore={projectStore}
-          updateElapsedTime={updateElapsedTime}
         />
       </div>
     </>

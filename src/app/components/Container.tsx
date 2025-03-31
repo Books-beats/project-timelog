@@ -12,7 +12,7 @@ type Project = {
   title: string;
   id: string;
   timeElapsed: string;
-}
+};
 
 const Container = () => {
   const [projectsArray, setProjectsArray] = useState<Project[]>([]);
@@ -23,16 +23,16 @@ const Container = () => {
     JSON.stringify([])
   );
 
+  // Setting the projectsArray
   useEffect(() => {
     const storedProjects = JSON.parse(projectStore);
     setProjectsArray(storedProjects);
-  }, []);
+  }, [projectStore]);
 
   // updates the local storage
   useEffect(() => {
-    console.log('Setting projects store', { projectsArray })
     setProjectStore(JSON.stringify(projectsArray));
-  }, [projectsArray]);
+  }, []);
 
   // updates the timeElapsed of project with the given id.
   const updateProject = (timeElapsed, id) => {
@@ -49,20 +49,22 @@ const Container = () => {
     setProjectsArray([...projectsArray, newProject]);
   };
 
-  // removes project of given id from projectsArray
+  // removes project of given id from projectsArray.
   const removeProject = (id) => {
     let removeIndex;
+
+    // Finding the index of the project to be removed based on given id
     projectsArray.map((project, index) => {
       if (project.id === id) {
         removeIndex = index;
       }
     });
 
-    // projectsArray.splice(removeIndex, 1);
-    const newProjectsArray = projectsArray.filter((project, index) => index !== removeIndex)
-    console.log(
-      "Delete", { removeIndex, projectsArray, newProjectsArray })
-    
+    // Creating new array of projects excluding the removed project
+    const newProjectsArray = projectsArray.filter(
+      (project, index) => index !== removeIndex
+    );
+
     // setting projectsArray
     setProjectsArray(newProjectsArray);
   };
@@ -71,9 +73,9 @@ const Container = () => {
   const filterProject = (id) => {
     if (id === "all") {
       setFilteredId(null);
-      return
+      return;
     }
-    setFilteredId(id)
+    setFilteredId(id);
   };
   return (
     <>
@@ -130,16 +132,17 @@ const Container = () => {
             <AddProject addNewProject={addNewProject} />
           </div>
         </div>
-        {projectsArray.filter(project => project.id === filteredId || filteredId === null).map((project, index) => (
-          <ProjectBar
-            removeProject={removeProject}
-            key={index}
-            project={project}
-            updateProject={updateProject}
-            projectStore={projectStore}
-            updateElapsedTime={"nbj"}
-          />
-        ))}
+        {/* Filtering projectsArray based on filteredId first and then mapping them as projectbar */}
+        {projectsArray
+          .filter((project) => project.id === filteredId || filteredId === null)
+          .map((project, index) => (
+            <ProjectBar
+              removeProject={removeProject}
+              key={index}
+              project={project}
+              updateProject={updateProject}
+            />
+          ))}
       </div>
     </>
   );
