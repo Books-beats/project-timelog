@@ -8,16 +8,15 @@ import ProjectBar from "./ProjectBar";
 import AddProject from "./AddProject";
 import Filter from "./Filter";
 
-const Container = () => {
-  const defaultProjects = [
-    { title: "Project 1", id: "1", timeElapsed: "00:00:00" },
-    { title: "Project 2", id: "2", timeElapsed: "00:00:00" },
-    { title: "Project 3", id: "3", timeElapsed: "00:00:00" },
-  ];
-  const [projectsArray, setProjectsArray] = useState([]);
+type Project = {
+  title: string;
+  id: string;
+  timeElapsed: string;
+}
 
-  // Creating new array named as displayProjects which will include the projects to be displayed in the ui
-  const [displayProjects, setDisplayProjects] = useState([defaultProjects]);
+const Container = () => {
+  const [projectsArray, setProjectsArray] = useState<Project[]>([]);
+  const [filteredId, setFilteredId] = useState<string>(null);
 
   const [projectStore, setProjectStore] = useLocalStorage(
     "project",
@@ -26,17 +25,12 @@ const Container = () => {
 
   useEffect(() => {
     const storedProjects = JSON.parse(projectStore);
-    if (storedProjects.length > 0) {
-      setProjectsArray(storedProjects);
-      setDisplayProjects(storedProjects);
-    } else {
-      setProjectsArray(defaultProjects);
-      setProjectStore(JSON.stringify(defaultProjects));
-    }
+    setProjectsArray(storedProjects);
   }, []);
 
   // updates the local storage
   useEffect(() => {
+    console.log('Setting projects store', { projectsArray })
     setProjectStore(JSON.stringify(projectsArray));
   }, [projectsArray]);
 
@@ -53,10 +47,9 @@ const Container = () => {
 
   const addNewProject = (newProject) => {
     setProjectsArray([...projectsArray, newProject]);
-    setDisplayProjects([...displayProjects, newProject]);
   };
 
-  // removes project of given id from projectsArray and displayProjects
+  // removes project of given id from projectsArray
   const removeProject = (id) => {
     let removeIndex;
     projectsArray.map((project, index) => {
@@ -65,27 +58,22 @@ const Container = () => {
       }
     });
 
-    projectsArray.splice(removeIndex, 1);
-
-    // setting projectsArray & displayProjects
-    setProjectsArray(projectsArray);
-    setDisplayProjects(projectsArray);
+    // projectsArray.splice(removeIndex, 1);
+    const newProjectsArray = projectsArray.filter((project, index) => index !== removeIndex)
+    console.log(
+      "Delete", { removeIndex, projectsArray, newProjectsArray })
+    
+    // setting projectsArray
+    setProjectsArray(newProjectsArray);
   };
 
   // filtering based on given id. New array is created which includes project with the given id.
   const filterProject = (id) => {
     if (id === "all") {
-      setDisplayProjects(projectsArray);
+      setFilteredId(null);
+      return
     }
-
-    const removeIndex = projectsArray.findIndex((project) => project.id === id);
-    if (removeIndex === -1) return;
-    const filteredProjects = projectsArray.filter(
-      (project) => project.id === id
-    );
-
-    // setting the displayProjects with the new array
-    setDisplayProjects(filteredProjects);
+    setFilteredId(id)
   };
   return (
     <>
@@ -142,7 +130,7 @@ const Container = () => {
             <AddProject addNewProject={addNewProject} />
           </div>
         </div>
-        {displayProjects.map((project, index) => (
+        {projectsArray.filter(project => project.id === filteredId || filteredId === null).map((project, index) => (
           <ProjectBar
             removeProject={removeProject}
             key={index}

@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 const AddProject = ({ addNewProject }) => {
+  const [open, setOpen] = useState<boolean>(false);
   const getRandomNumber = (min, max) => {
     return Math.random() * (max - min) + min;
   };
@@ -28,10 +29,11 @@ const AddProject = ({ addNewProject }) => {
     formJson.timeElapsed = "00:00:00";
     addNewProject(formJson);
     e.target.reset();
+    setOpen(false);
   };
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" id="button">
             <IoMdAdd />
