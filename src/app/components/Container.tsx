@@ -27,12 +27,12 @@ const Container = () => {
   useEffect(() => {
     const storedProjects = JSON.parse(projectStore);
     setProjectsArray(storedProjects);
-  }, [projectStore]);
+  }, []);
 
   // updates the local storage
   useEffect(() => {
     setProjectStore(JSON.stringify(projectsArray));
-  }, []);
+  }, [projectsArray]);
 
   // updates the timeElapsed of project with the given id.
   const updateProject = (timeElapsed, id) => {

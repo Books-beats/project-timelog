@@ -24,7 +24,7 @@ const Stopwatch = ({ id, removeProject, updateProject, timeElapsed }) => {
       today.getMinutes() - timeParts[1],
       today.getSeconds() - timeParts[2],
     ];
-    console.log(timeParts);
+
     let date = new Date(
       today.getFullYear(),
       today.getMonth(),
@@ -43,7 +43,6 @@ const Stopwatch = ({ id, removeProject, updateProject, timeElapsed }) => {
       const currentDate = new Date();
       var currentTime = currentDate.getTime();
       var elapsedTime = currentTime - date.getTime();
-      console.log({ elapsedTime, currentDate, date });
       var seconds = Math.floor(elapsedTime / 1000) % 60;
       var minutes = Math.floor(elapsedTime / 1000 / 60) % 60;
       var hours = Math.floor(elapsedTime / 1000 / 60 / 60);
