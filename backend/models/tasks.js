@@ -44,10 +44,23 @@ function updateNewTask(id, name, elapsedTime) {
 function removeTask(id) {
   return db.none("DELETE FROM tasks WHERE id = $1", [id]);
 }
+function filterTasks(id) {
+  if (id === "all") {
+    return db.any(
+      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks'
+    );
+  } else {
+    return db.any(
+      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks WHERE id = $1',
+      [id]
+    );
+  }
+}
 
 module.exports = {
   createNewTask,
   listTasks,
   updateNewTask,
   removeTask,
+  filterTasks,
 };

@@ -15,7 +15,6 @@ type Project = {
 
 const Container = () => {
   const [projectsArray, setProjectsArray] = useState<Project[]>([]);
-  const [filteredId, setFilteredId] = useState<string>(null);
 
   async function fetchAllTasks() {
     try {
@@ -108,13 +107,16 @@ const Container = () => {
     }
   };
 
-  // filtering based on given id. New array is created which includes project with the given id.
-  const filterProject = (id) => {
-    if (id === "all") {
-      setFilteredId(null);
-      return;
+  // filtering based on given id.
+  const filterProject = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`);
+      const result = await response.json();
+      console.log(result.data);
+      setProjectsArray(result.data);
+    } catch (err) {
+      console.error("Failed to fetch filtered tasks", err);
     }
-    setFilteredId(id);
   };
   return (
     <>
@@ -171,17 +173,15 @@ const Container = () => {
             <AddProject addNewProject={addNewProject} />
           </div>
         </div>
-        {/* Filtering projectsArray based on filteredId first and then mapping them as projectbar */}
-        {projectsArray
-          .filter((project) => project.id === filteredId || filteredId === null)
-          .map((project, index) => (
-            <ProjectBar
-              removeProject={removeProject}
-              key={index}
-              project={project}
-              updateProject={updateProject}
-            />
-          ))}
+
+        {projectsArray.map((project, index) => (
+          <ProjectBar
+            removeProject={removeProject}
+            key={index}
+            project={project}
+            updateProject={updateProject}
+          />
+        ))}
       </div>
     </>
   );

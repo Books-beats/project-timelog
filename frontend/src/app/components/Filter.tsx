@@ -8,7 +8,7 @@ const Filter = ({ projectsArray, filterProject }) => {
     const form = e.target;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-
+    console.log(formJson);
     e.target.reset();
     filterProject(formJson.projectid);
   };
@@ -16,7 +16,7 @@ const Filter = ({ projectsArray, filterProject }) => {
     <>
       <form onSubmit={handleSubmit} style={{ display: "flex" }}>
         <select
-          id="title"
+          id="name"
           name="projectid"
           className="col-span-3"
           style={{ width: "100%" }}
@@ -25,7 +25,7 @@ const Filter = ({ projectsArray, filterProject }) => {
         >
           {projectsArray.map((project) => (
             <option key={project.id} value={project.id}>
-              {project.title}
+              {project.name}
             </option>
           ))}
           <option key="all" value="all">
