@@ -83,7 +83,7 @@ export default function Home() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--app-bg)' }}>
       <Navbar />
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold" style={{ color: 'var(--app-text)' }}>My Projects</h1>
           <AddProject onAdd={handleAdd} />
