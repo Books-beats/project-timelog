@@ -1,6 +1,7 @@
-const pgp = require("pg-promise")(/* options */);
-const db = pgp(
-  "postgres://timelogger_user:asdfghjkl@localhost:5432/timelogger"
-);
-
+require("dotenv").config();
+const pgp = require("pg-promise")();
+const db = pgp({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
 module.exports = db;

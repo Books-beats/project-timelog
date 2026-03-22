@@ -8,9 +8,9 @@ var express = require("express");
 var router = express.Router();
 
 router.post("/", createTask);
-router.get("/", listAllTasks);
+// router.get("/", listAllTasks);
 router.put("/:task_id", updateTask);
 router.delete("/:task_id", deleteTask);
-router.get("/:task_id", filter);
+router.get("/", filter);
 
 module.exports = router;

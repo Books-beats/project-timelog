@@ -44,15 +44,15 @@ function updateNewTask(id, name, elapsedTime) {
 function removeTask(id) {
   return db.none("DELETE FROM tasks WHERE id = $1", [id]);
 }
-function filterTasks(id) {
-  if (id === "all") {
+function filterTasks(search) {
+  if (search) {
     return db.any(
-      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks'
+      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks WHERE title ILIKE $1',
+      [`%${search}%`]
     );
   } else {
     return db.any(
-      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks WHERE id = $1',
-      [id]
+      'SELECT id, title AS name, time_elapsed AS "elapsedTime" FROM tasks'
     );
   }
 }

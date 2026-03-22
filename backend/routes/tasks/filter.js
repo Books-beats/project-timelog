@@ -1,11 +1,15 @@
 var { filterTasks } = require("../../models/tasks");
 
-/* DELETE  task */
+/* FILTER  task */
 async function filter(req, res) {
-  const id = req.params.task_id;
+  console.log(req);
+  const search = req.query.search;
+  console.log("ksjfr", search);
   try {
-    const data = await filterTasks(id);
-    res.status(200).json({ data });
+    console.log(search);
+    const data = await filterTasks(search);
+    console.log(data);
+    res.status(200).json(data);
   } catch (err) {
     console.error("Error filtering tasks:", err);
     res.status(500).json({ error: "Failed to filter " });
